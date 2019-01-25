@@ -1,4 +1,5 @@
 $(function () {
+    console.log("loaded");
     bigDiv = $("#cards");
     name = $("#name");
     content = $("#main");
@@ -11,12 +12,9 @@ $(function () {
     }
 
     var myname = false;
-    var connection = new WebSocket('ws://127.0.0.1:8080');
+    var connection = new WebSocket('ws://localhost:8080');
 
     connection.onopen = function () {
         name.removeAttribute('disabled');
     }
-
-    name.
-
 });

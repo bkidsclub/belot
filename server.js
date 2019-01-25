@@ -11,9 +11,23 @@ var clients = [ ];
 var score = {'team1':0,'team2':0}
 
 var server = http.createServer(function (request, response) {
-    fs.readFile('index.html', function (err,data) {
-        response.write(data);
-    });
+    console.log("Requested " + request.url)
+    if (request.url == "/") {
+        fs.readFile('index.html', function (err,data) {
+            response.writeHead(200, {"content-type": "text/html"});
+            response.write(data);
+        });
+    } else if (request.url == "/index.js") {
+        fs.readFile('./index.js', function (err, data) {
+            response.writeHead(200, {"content-type": "text/js"});
+            response.write(data);
+        });
+    } else if (request.url == "/style.css") {
+        fs.readFile('./style.css', function (err,data) {
+            response.writeHead(200, {"content-type": "text/css"});
+            response.write(data);
+        });
+    }
 });
 server.listen(port, function() { console.log("server started on port " + port) });
 
@@ -41,7 +55,7 @@ class game {
         return Math.floor(Math.random()*(max-min)+min);
     }
 
-    giveOutCardsTo1Player(this) {
+    giveOutCardsTo1Player() {
         var hand = [ ]
         for(i=0;i<8;i++) {
             let cardVal = cardToVal[this.randint(1,9)];
@@ -51,7 +65,7 @@ class game {
         }
         return hand;
     }
-    giveOutBigArray(this) {
+    giveOutBigArray() {
         var retVal = [[],[],[],[]];
         for (i=0;i<4;i++) {
             retval[i].push(this.giveOutCardsTo1Player());
@@ -63,7 +77,7 @@ class game {
     }
 }
 
-class score extends game {
+class scores extends game {
     constructor (scoreObj){
         super(scoreObj);
         this.score = scoreObj;
@@ -112,7 +126,7 @@ wsServer.on('request', function(request) {
             else if (JSON.parse(message.utf8data).suit != undefined) {
                 g.gameRequested("calculation of score");
                 var obj = JSON.parse(message.utf8data);
-                score.suitScores
+                scores.suitScores
             }
             else if (message.utf8data === 'reset') {
                 g.gameRequested("reset");
