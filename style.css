@@ -2,3 +2,27 @@ h1 {
     font-size: 40px;
     text-align: center;
 }
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto Mono', monospace;
+    background-color: rgb(255, 255, 255);
+}
+
+#main {
+    display: block;
+    align-content: center;
+    text-align: center;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 25px;
+    width: 50%;
+    height: 100%;
+    margin: auto;
+    padding: 5px;
+    margin-bottom: 10%;
+}
+
+#name {
+    padding: 4px;
+}

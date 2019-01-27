@@ -1,16 +1,31 @@
 <!Doctype html>
-<html>
+<html ng-app="belot">
     <head>
         <title>Belot</title>
         <link href="./style.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Mono" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
     </head>
     <body>
-        <div id="main">
-            <h1>Belot</h1>
-            <div id="cards"></div>
-            <p>Enter your name: </p><input id="name" disabled>
+        <div id="main" ng-controller="gameFuncs">
+            <div id="topBar">
+                <h1>Belot</h1>
+                <div ng-show="$scope.username != ''">
+                    <p>{{"Hello " + $scope.username}}</p>
+                    <button id="startGame">Start Game</button>
+                </div>
+            </div>
+            <div id="inputWrapper">
+                <p>Enter your name: </p><input id="name" disabled ng-model="$scope.username">
+            </div>
+            <div id="cards">
+                <div ng-repeat="i in hand" ng-hide="hand.length() > 4">
+                    <img src="./assets/{{hand[i]}}">
+                </div>
+            </div>
         </div>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="./index.js"></script>
+        <script src="./belot-controller.js"></script>
     </body>
 </html>
