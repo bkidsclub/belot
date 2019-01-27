@@ -16,16 +16,19 @@ var server = http.createServer(function (request, response) {
         fs.readFile('index.html', function (err,data) {
             response.writeHead(200, {"content-type": "text/html"});
             response.write(data);
+            response.end();
         });
     } else if (request.url == "/index.js") {
         fs.readFile('./index.js', function (err, data) {
             response.writeHead(200, {"content-type": "text/js"});
             response.write(data);
+            response.end();
         });
     } else if (request.url == "/style.css") {
         fs.readFile('./style.css', function (err,data) {
             response.writeHead(200, {"content-type": "text/css"});
             response.write(data);
+            response.end();
         });
     }
 });

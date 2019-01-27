@@ -5,9 +5,9 @@ $(function () {
     content = $("#main");
     window.webSocket = window.webSocket || window.MozWebSocket;
 
-    if (!window.webSocket) {
+    if (!window.WebSocket) {
         content.html($('<p>', {text:"Sorry, your browser does not support WebSocket"}));
-        input.hide();
+        name.hide();
         return;
     }
 
