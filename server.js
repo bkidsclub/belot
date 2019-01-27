@@ -13,7 +13,7 @@ var score = {'team1':0,'team2':0}
 var server = http.createServer(function (request, response) {
     console.log("Requested " + request.url)
     if (request.url == "/") {
-        fs.readFile('index.html', function (err,data) {
+        fs.readFile('./index.html', function (err,data) {
             response.writeHead(200, {"content-type": "text/html"});
             response.write(data);
             response.end();

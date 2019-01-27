@@ -12,7 +12,7 @@ $(function () {
     }
 
     var myname = false;
-    var connection = new WebSocket('ws://localhost:8080');
+    var connection = new WebSocket('ws://webelot.herokuapp.com');
 
     connection.onopen = function () {
         name.removeAttribute('disabled');
