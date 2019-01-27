@@ -4,7 +4,7 @@ var fs = require('fs');
 
 process.title = "Belot";
 
-var port = process.env.port;
+var port = process.env.port || 8080;
 
 var clients = [ ];
 
