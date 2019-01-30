@@ -1,7 +1,7 @@
 var websocketserver = require('websocket').server;
 var http = require('http');
 var fs = require('fs');
-var game = require('./game.js');
+var gameFile = require('./game.js');
 
 
 process.title = "Belot";
@@ -38,6 +38,7 @@ server.listen(port, function() { console.log("server started on port " + port) }
 
 var wsServer = new websocketserver({httpServer:server});
 
+let g = new gameFile(score);
 
 wsServer.on('request', function(request) {
     console.log("got request from " + request.origin);
@@ -49,29 +50,35 @@ wsServer.on('request', function(request) {
     var connection = request.accept(null, request.origin);
 
     connection.on('message', function (message) {
-        console.log(`recieved message from ${request.origin} saying ${message.utf8Data}`)
-        if (JSON.parse(message.utf8Data).userName != undefined) {
-            username = JSON.parse(message.utf8Data).userName;
+        console.log(`recieved message from ${request.origin} saying ${message.utf8Data}`);
+        message = JSON.parse(message.utf8Data);
+
+
+        if (message.userName != undefined) {
+            username = message.userName;
             console.log(username);
         } else {
-            var g = new game.game(score);
-            if (message.utf8Data === "cards") {
+            if (message.request === "cards") {
                 g.gameRequested("cards")
-                connection.send(g.giveOutCardsTo1Player());
+                connection.send(JSON.stringify(g.giveOutCardsTo1Player()));
+                console.log(g.deck);
             }
-            else if (message.utf8Data === 'score') {
+            else if (message.request === 'score') {
                 g.gameRequested("score")
                 var scoreboard = new game.score(score);
-                scoreboard.score(JSON.parse(message));
+                scoreboard.score(message);
                 connection.send()
             }
-            else if (JSON.parse(message.utf8Data).suit != undefined) {
+            else if (message.request == "scoreCalc") {
                 g.gameRequested("calculation of score");
-                var obj = JSON.parse(message.utf8Data);
-                scores.suitScores
-            }
-            else if (message.utf8Data === 'reset') {
-                g.gameRequested("reset");
+                var scoreT1 = g.suitScores(message.Team1Cards, message.GameSuit);
+                var scoreT2 = g.suitScores(message.Team2Cards, message.GameSuit);
+
+                score.team1 += scoreT1;
+                score.team2 += scoreT2;
+
+                connection.send(JSON.stringify(score));
+
             }
         }
     });

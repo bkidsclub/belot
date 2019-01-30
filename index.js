@@ -1,13 +1,18 @@
+var username;
+
+var hand = [];
+
 $(function () {
     console.log("loaded");
     bigDiv = $("#cards");
     var name = $("#name");
     content = $("#main");
-    var button = $("#gameStart");
+    var button = $("#startGame");
     var inputWrapper = $("#inputWrapper");
+    var handImgs = $("#listOfCards")
+
     window.webSocket = window.webSocket || window.MozWebSocket;
-    var hand = [];
-    var username = false;
+    button.css({'visibility':'hidden'});
 
     if (!window.WebSocket) {
         content.html($('<p>', {text:"Sorry, your browser does not support WebSocket"}));
@@ -22,10 +27,13 @@ $(function () {
         name.removeAttr('disabled');
     }
     connection.onmessage = function (message) {
-        message = JSON.parse(message)
+        message = JSON.parse(message.data)
         if (message.type == "cards") {
             hand = message.hand;
-            $scope.hand = hand;
+            handImgs.css({'visibility':'visible'})
+            for (var i in hand) {
+                handImgs.append(`<img src="./assets/${JSON.parse(hand[i]).name}.png" class="rotate">`);
+            }
         }
     }
     name.keydown(function(e) {
@@ -37,9 +45,11 @@ $(function () {
             connection.send(JSON.stringify(JSON.parse(`{"userName": "${msg}"}`)));
             $(this).val('');
             inputWrapper.css({'visibility': 'hidden'});
+            button.css({'visibility':'visible'});
         }
     });
     button.click(function() {
-        connection.send('cards');
+        console.log("start game clicked");
+        connection.send(JSON.stringify({'request': 'cards'}));
     });
 });

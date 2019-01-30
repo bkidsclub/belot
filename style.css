@@ -26,3 +26,26 @@ body {
 #name {
     padding: 4px;
 }
+
+#startGame {
+    color: white;
+    border: none;
+    padding: 15px 32px;
+    background-color: rgb(68, 73, 68);
+    border-radius: 12px;
+    border: 2px solid #4CAF50;
+}
+
+.rotate {
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    position: inherit;
+    top:5;
+    left:2;
+    height: 150px;
+    width: auto;
+}
+
+.rotate:hover {
+    transform: rotate(25deg);
+}
