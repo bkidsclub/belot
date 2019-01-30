@@ -54,10 +54,9 @@ class game {
         var hand = [ ]
         
         for(var i=0;i<8;i++) {
-            let num = this.randint(0,this.deck.length)
-            let fullName = this.deck[num];
-            let cardVal = this.cardToVal[num % 8];
-            let cardSuit = this.cardToSuit[Math.floor(num/4)];
+            let fullName = this.deck[this.randint(0,this.deck.length)];
+            let cardVal = this.cardToVal[this.randint(1,9)];
+            let cardSuit = this.cardToSuit[this.randint(1,5)];
             this.deck.remove(`${cardVal}${cardSuit}`);
             hand.push(JSON.stringify({"value": cardVal, "suit": cardSuit, "name": `${cardVal}_of_${cardSuit}`}));
         }
